@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Eight</title>
+    <script src="../verify.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //page eight
+        var Class = function () {
+            var _class = function () {
+                this.init.apply(this, arguments);
+            };
+
+            //定义prototype别名
+            _class.fn = _class.prototype;
+
+            //定义类的别名
+            _class.fn.parent = _class;
+
+            _class.fn.init = function () {
+                console.log("parent class init.");
+            };
+
+
+            _class.extend = function (obj) {
+                var extended = obj.extended;
+                for (var i in obj) {
+                    _class[i] = obj[i];
+                }
+                if (extended) extended(_class);
+            };
+
+            _class.include = function (obj) {
+                var included = obj.included;
+                for (var i in obj) {
+                    _class.fn[i] = obj[i];
+                }
+                if (included) included(_class);
+            };
+
+            return _class;
+        };
+
+        var Person = new Class;
+
+        Person.extend({
+            find:function (id) {
+                console.log("find: " + id);
+            },
+            exists:function (id) {
+                console.log("exists: " + id);
+            },
+            extended:function (_class) {
+                console.log(_class," was extecded");
+            }
+        });
+
+        Person.find(1);
+        Person.exists(1);
+
+        Person.include({
+            save:function () {
+                console.log("save person " + this.name || "" + ".");
+            },
+            destroy:function () {
+                console.log("destroy person.");
+            },
+            included:function(_class){
+                console.log(_class," was included.");
+            }
+        });
+
+        Person.fn.init = function (name) {
+            this.name = name;
+            console.log("init name is " + name);
+        };
+
+        var Sailor = new Person("Sailor");
+        Sailor.save();
+        Sailor.destroy();
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

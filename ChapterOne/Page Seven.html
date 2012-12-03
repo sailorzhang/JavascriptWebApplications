@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Seven</title>
+    <script src="../verify.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //page seven
+        var Class = function () {
+            var _class = function () {
+                this.init.apply(this, arguments);
+            };
+            _class.prototype.init = function () {
+                console.log("parent init.")
+            };
+            return _class;
+        };
+        var Person = new Class;
+
+        Person.prototype.init = function () {
+            console.log("person init.");
+        }
+
+        var person = new Person;
+
+        //相当于类的静态方法
+        Person.find = function (id) {
+            console.log("Static method:find, id: " + id);
+        };
+
+        Person.find(2);
+
+        //相当于类的实例方法
+        Person.prototype.breath = function () {
+            console.log("Instance method breath");
+        };
+
+        person.breath();
+
+        //prototype别名fn
+        Person.fn = Person.prototype;
+
+        Person.fn.run = function () {
+            console.log("Alias prototype");
+        };
+
+        person.run();
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
