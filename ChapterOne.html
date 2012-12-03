@@ -2,6 +2,30 @@
 <html>
 <head>
     <title></title>
+    <script src="verify.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        /*var Person = function(name)
+        {
+            this.name=name;
+        }
+        var Sailor = new Person("Sailor");
+        assert(Sailor instanceof Person);*/
+
+        var Class = function(){
+            var klass = function(){
+                this.init.apply(this,arguments);
+            };
+            klass.prototype.intn = function(){};
+            return klass;
+        };
+        var Person = new Class;
+
+        Person.prototype.init= function(){
+            console.log("person init.");
+        }
+
+        var person = new Person;
+    </script>
 </head>
 <body>
 
