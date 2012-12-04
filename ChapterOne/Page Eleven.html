@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Eleven</title>
+    <script src="../verify.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //基于原型的继承
+        /*var Animal = function () {
+        };
+
+        Animal.prototype.breath = function () {
+            console.log("breath");
+        };
+
+        var Dog = function () {
+        };
+
+        //Dog继承了Animal
+        Dog.prototype = new Animal;
+
+        Dog.prototype.wag = function () {
+            console.log("wag");
+        };
+
+        var dog = new Dog;
+        dog.wag();
+        dog.breath();*/
+
+        //--------------------------------//
+
+        var Class = function (parent) {
+            var _class = function () {
+                this.init.apply(this, arguments);
+            };
+
+            if (parent) {
+                var subclass = function(){};
+                subclass.prototype  = parent.prototype;
+                _class.prototype = new subclass;
+            }
+
+            _class.prototype.init= function(){};
+
+            _class.fn=_class.prototype;
+
+            _class.fn.parent = _class;
+            _class.__super= _class.__proto__;
+
+            _class.extend = function (obj) {
+                var extended = obj.extended;
+                for (var i in obj) {
+                    _class[i] = obj[i];
+                }
+                if (extended) extended(_class);
+            };
+
+            _class.include = function (obj) {
+                var included = obj.included;
+                for (var i in obj) {
+                    _class.fn[i] = obj[i];
+                }
+                if (included) included(_class);
+            };
+
+            return _class;
+        };
+
+        var Animal = new Class;
+
+        Animal.include({
+            breath:function(){
+                console.log("breath");
+            }
+        });
+
+        var Cat = new Class(Animal);
+
+        var tom = new Cat;
+        tom.breath();
+
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
