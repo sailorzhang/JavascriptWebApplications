@@ -15,8 +15,9 @@
             _class.fn = _class.prototype;
 
             _class.proxy = function (func) {
+                var self = this;
                 return (function () {
-                    return func.apply(this, arguments);
+                    return func.apply(self, arguments);
                 });
             };
 
@@ -44,11 +45,12 @@
         var Button = new Class;
         Button.include({
             init:function (element) {
-                var self= this;
                 this.element = $(element);
                 this.element.click(this.proxy(this.clicky));
+                this.element.click(this.clicky);
             },
             clicky:function () {
+                console.log(this);
                 console.log("elementClick");
             }
         });
