@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Thirteen</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        var clicky = {
+            wasClicked:function () {
+                console.log("wasClicked");
+            },
+            addListeners:function () {
+                var self = this;
+                $('.clicky').click($.proxy(this.wasClicked, this));
+            }
+        };
+        $(function () {
+            clicky.addListeners();
+        });
+
+        var app = {
+            log:function () {
+                if (typeof console == "undefined") return;
+
+                var args = $.makeArray(arguments);
+                args.unshift("(App)");
+
+                console.log.apply(console, args);
+            }
+        };
+        app.log("a", "b");
+    </script>
+</head>
+<body>
+<button class="clicky">click</button>
+</body>
+</html>
