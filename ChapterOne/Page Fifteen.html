@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Fifteen</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        var Class = function () {
+            var _class = function () {
+                this.init.apply(this, arguments);
+            };
+
+            _class.prototype.init = function () {
+            };
+
+            _class.fn = _class.prototype;
+
+            _class.proxy = function (func) {
+                return (function () {
+                    return func.apply(this, arguments);
+                });
+            };
+
+            _class.fn.proxy = _class.proxy;
+
+            _class.extend = function (obj) {
+                var extended = obj.extended;
+                for (var i in obj) {
+                    _class[i] = obj[i];
+                }
+                if (extended) extended(_class);
+            };
+
+            _class.include = function (obj) {
+                var included = obj.included;
+                for (var i in obj) {
+                    _class.fn[i] = obj[i];
+                }
+                if (included) included(_class);
+            };
+
+            return _class;
+        };
+
+        var Button = new Class;
+        Button.include({
+            init:function (element) {
+                var self= this;
+                this.element = $(element);
+                this.element.click(this.proxy(this.clicky));
+            },
+            clicky:function () {
+                console.log("elementClick");
+            }
+        });
+
+        $(function () {
+            var clickButton = new Button(".clicky");
+        });
+    </script>
+</head>
+<body>
+<button class="clicky">click</button>
+</body>
+</html>
