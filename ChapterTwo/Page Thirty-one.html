@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Thirty-One</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script src="js/PubSub.js"></script>
+    <script type="text/javascript">
+        $.subscribe("Sailor", function (event, a, b, c) {
+            console.log(event.type, a + b + c);
+        });
+
+        $.publish("Sailor",["a","b","c"]);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
