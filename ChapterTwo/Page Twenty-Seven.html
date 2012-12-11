@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Twenty-Seven</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".class").bind("refresh.widget", function (event, dataNumber, market) {
+                console.log(event);
+                console.log(dataNumber);
+                console.log(market);
+            });
+
+            $(".class").trigger("refresh.widget", [1, "market"]);
+
+            new function () {
+                this.appName = "AppName";
+                $(".class").bind("show", function () {
+                    console.log(this.appName);//undefined
+                });
+
+                $(".class").bind("show", $.proxy(function () {
+                    console.log(this.appName);//AppName
+                }, this));
+
+                $(".class").trigger("show");
+            };
+        });
+
+
+    </script>
+</head>
+<body>
+<div class="class"></div>
+</body>
+</html>
