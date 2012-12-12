@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Thirty-Five</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        if (typeof Object.create !== "function")
+            Object.create = function (o) {
+                var F = function () {
+                };
+                F.prototype = o;
+                return new F();
+            };
+
+        var Model = {
+            inherited:function () {
+            },
+            created:function () {
+            },
+
+            prototype:{
+                init:function () {
+                }
+            },
+
+            create:function () {
+                var object = Object.create(this);
+                object.parent = this;
+                object.prototype = object.fn = Object.create(this.prototype);
+
+                object.created();
+                this.inherited(object);
+                return object;
+            },
+
+            init:function () {
+                var instance = Object.create(this.prototype);
+                instance.parent = this;
+                instance.init.apply(instance, arguments);
+                console.log("parent init.");
+                return instance;
+            },
+
+            extend:function (o) {
+                var extended = o.extended;
+                jQuery.extend(this, o);
+                if (extended) extended(this);
+            },
+
+            include:function (o) {
+                var included = o.included;
+                jQuery.extend(this.prototype, o);
+                if (included) included(this);
+            }
+        };
+
+        Model.extend({
+            find:function (id) {
+                console.log("find");
+            }
+        });
+
+        Model.include({
+            init:function (atts) {
+                if (atts) this.load(atts);
+                console.log("children init.");
+            },
+            load:function (attributes) {
+                for (var name in attributes) {
+                    this[name] = attributes[name];
+                }
+            }
+        });
+
+        var Asset = Model.create();
+
+        var User = Model.create();
+
+        User.find();
+
+        var user = User.init();
+
+        user.init();
+
+        var asset = Asset.init({name:'Sailor'});
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
