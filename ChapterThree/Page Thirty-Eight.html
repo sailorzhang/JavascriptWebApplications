@@ -85,6 +85,18 @@
             },
             dup:function () {
                 return $.extend(true, {}, this);
+            },
+            attributes:function () {
+                var result = {};
+                for (var i in this.parent.attributes) {
+                    var attr = this.parent.attributes[i];
+                    result[attr] = this[attr];
+                }
+                result["id"] = this.id;
+                return result;
+            },
+            toJSON:function(){
+                return (this.attributes());
             }
         });
 
@@ -99,11 +111,18 @@
             },
             created:function () {
                 this.records = {};
+                this.attributes = [];
+            },
+            populate:function (values) {
+                this.records = {};
+                for (var i = 0; i < values.length; i++) {
+                    var record = this.init(values[i]);
+                    record.save();
+                }
             }
         });
 
         var Asset = Model.create();
-        var Person = Model.create();
 
         var asset = Asset.init();
         asset.name = "same, same";
@@ -125,7 +144,20 @@
 
         console.log();
 
-        //       console.log(Asset.find(2));
+
+        var Person = Model.create();
+
+        Person.populate([
+            {name:"Sailor", age:1, address:"Shanghai", id:1},
+            {name:"alan", age:2, address:"Dalian", id:2}
+        ]);
+
+        var Attr = Model.create();
+
+        Attr.attributes = ["name", "address"];
+        Attr.populate([{name:"Sailor", ext:".txt",address:"Dalian"},{name:"Alan", ext:".exe",address:"Shanghai"}]);
+        var json = JSON.stringify(Attr.records);
+
     </script>
 </head>
 <body>
