@@ -95,7 +95,7 @@
                 result["id"] = this.id;
                 return result;
             },
-            toJSON:function(){
+            toJSON:function () {
                 return (this.attributes());
             }
         });
@@ -114,6 +114,7 @@
                 this.attributes = [];
             },
             populate:function (values) {
+                values = values || [];
                 this.records = {};
                 for (var i = 0; i < values.length; i++) {
                     var record = this.init(values[i]);
@@ -155,18 +156,21 @@
         var Attr = Model.create();
 
         Attr.attributes = ["name", "address"];
-        Attr.populate([{name:"Sailor", ext:".txt",address:"Dalian"},{name:"Alan", ext:".exe",address:"Shanghai"}]);
+        Attr.populate([
+            {name:"Sailor", ext:".txt", address:"Dalian"},
+            {name:"Alan", ext:".exe", address:"Shanghai"}
+        ]);
         var json = JSON.stringify(Attr.records);
 
         Model.LocalStorage = {
-            saveLocal:function(name){
-                var result =[];
-                for(var i in this.records){
+            saveLocal:function (name) {
+                var result = [];
+                for (var i in this.records) {
                     result.push(this.records[i]);
                 }
-                localStorage.setItem(name,JSON.stringify(result));
+                localStorage.setItem(name, JSON.stringify(result));
             },
-            loadLocal:function(name){
+            loadLocal:function (name) {
                 this.populate(JSON.parse(localStorage.getItem(name)));
             }
         };
@@ -175,7 +179,10 @@
 
         var Local = Model.create();
         Local.attributes = ["name", "address"];
-        Local.populate([{name:"Sailor", ext:".txt",address:"Dalian"},{name:"Alan", ext:".exe",address:"Shanghai"}]);
+        Local.populate([
+            {name:"Sailor", ext:".txt", address:"Dalian"},
+            {name:"Alan", ext:".exe", address:"Shanghai"}
+        ]);
         Local.loadLocal("Thirty-Eight");
 
     </script>
