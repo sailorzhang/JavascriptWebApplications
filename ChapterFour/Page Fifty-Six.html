@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Fifty-Six</title>
+    <script src="../jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        (function ($, exports) {
+            var mod = function (includes) {
+                if (includes) this.include(includes);
+            };
+
+            mod.fn = mod.prototype;
+
+            mod.fn.include = function (ob) {
+                $.extend(this, ob)
+            };
+
+            mod.fn.proxy = function (func) {
+                return $.proxy(func, this);
+            };
+
+            mod.fn.load = function (func) {
+                $(this.proxy(func));
+            };
+
+            exports.Controller = mod;
+        })(jQuery, window);
+
+
+            (function($,Controller){
+                var mod = new Controller;
+                mod.toggleClass = function(e){
+                    console.log(e);
+                    this.view.toggleClass("over", e.data);
+                };
+                $(function(){
+                    mod.load(function(){
+                        this.view = $("#view");
+                        this.view.mouseover(true,this.proxy(this.toggleClass));
+                        this.view.mouseout(false,this.proxy(this.toggleClass));
+                    });
+                });
+            })(jQuery,Controller);
+
+
+    </script>
+</head>
+<body>
+    <div id="view">view</div>
+</body>
+</html>

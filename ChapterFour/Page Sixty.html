@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Sixty</title>
+    <script src="../jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="js/Controller.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function ($) {
+            exports.SearchView = Controller.create({
+                elements:{
+                    "input[type=search]":"searchInput",
+                    "form":"searchForm"
+                },
+                events:{
+                    "submit form":"search"
+                },
+                init:function (view) {
+                    this.view = $(view);
+                    this.refreshElements();
+                    this.delegateEvents();
+//                    this.searchForm.submit(this.proxy(this.search));
+
+                },
+                search:function () {
+                    console.log("Searching:%s", this.searchInput.val());
+                    return false;
+                },
+                $:function (selector) {
+                    return $(selector, this.view);
+                },
+                refreshElements:function () {
+                    for (var key in this.elements)
+                        this[this.elements[key]] = this.$(key);
+                },
+                eventSplitter:/^(\w+)\s*(.*)$/,
+
+                delegateEvents:function () {
+                    for (var key in this.events) {
+                        var methodName = this.events[key];
+                        var method = this.proxy(this[methodName]);
+
+                        var match = key.match(this.eventSplitter);
+                        var eventName = match[1], selector = match[2];
+                        if (selector === '')
+                            this.view.bind(eventName, method);
+                        else
+                            this.view.delegate(selector, eventName, method);
+                    }
+                }
+            });
+
+            //override search method.
+            /*SearchView.include({search:function () {
+             console.log("override search %s", this.searchInput.val());
+             return false;
+             }});*/
+            new SearchView("#users");
+        });
+    </script>
+</head>
+<body>
+
+<div id="users">
+    <form>
+        <input type="search">
+        <button>submit</button>
+    </form>
+</div>
+
+</body>
+</html>
