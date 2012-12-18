@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Eighty-Five</title>
+    <script type="text/javascript" data-main="lab/Welcome" src="lab/require.js"></script>
+    <script type="text/javascript">
+        require.config({
+            paths:{
+                "jquery":"jquery-1.8.3.min"
+            }
+        });
+
+        require(["Hello","Welcome"],function(Hello,Welcome){
+            console.log(Hello.SayHello("Sailor"));
+            console.log(Welcome.Welcome("Sailor"));
+        });
+    </script>
+</head>
+<body>
+    <div>html</div>
+</body>
+</html>
